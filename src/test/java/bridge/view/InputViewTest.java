@@ -24,7 +24,7 @@ class InputViewTest {
         return new ByteArrayInputStream(input.getBytes());
     }
 
-    @ParameterizedTest(name = "다리 길이 입력값이 {0}이라면 예외발생")
+    @ParameterizedTest(name = "다리 길이 입력값이 ({0})이라면 예외발생")
     @DisplayName("다리 길이 입력이 올바른 값이 아니라면 예외 발생")
     @MethodSource
     void bridgeSizeInputInvalid(String input) {
@@ -65,4 +65,6 @@ class InputViewTest {
                 Arguments.of("1234")
         );
     }
+
+
 }

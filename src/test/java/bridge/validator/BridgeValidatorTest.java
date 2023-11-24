@@ -15,7 +15,7 @@ class BridgeValidatorTest {
     @DisplayName("다리 길이가 3이상 20이하 아니라면 예외 처리")
     @MethodSource
     void bridgeSizeOutRange(int bridgeSize) {
-        Throwable result = catchThrowable(() -> BridgeValidator.validateBridgeSize(bridgeSize));
+        Throwable result = catchThrowable(() -> BridgeValidator.validateSize(bridgeSize));
         assertThat(result).isInstanceOf(BridgeSizeOutRangeException.class);
     }
 
@@ -32,7 +32,7 @@ class BridgeValidatorTest {
     @DisplayName("다리 길이가 3이상 20이하라면 정상")
     @MethodSource
     void bridgeSizeInRange(int bridgeSize) {
-        Throwable result = catchThrowable(() -> BridgeValidator.validateBridgeSize(bridgeSize));
+        Throwable result = catchThrowable(() -> BridgeValidator.validateSize(bridgeSize));
         assertThat(result).doesNotThrowAnyException();
     }
 
