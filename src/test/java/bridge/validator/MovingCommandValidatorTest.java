@@ -3,7 +3,7 @@ package bridge.validator;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
-import bridge.domain.MovingKey;
+import bridge.constant.MovingCommand;
 import bridge.exception.MovingKeyInvalidException;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -11,13 +11,13 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class MovingKeyValidatorTest {
+class MovingCommandValidatorTest {
 
     @ParameterizedTest(name = "이동할 위치가 {0} 이라면 예외 발생")
     @DisplayName("이동할 위치가 U 또는 D 가 아니라면 예외 발생")
     @MethodSource
     void movingKeyInvalid(String input) {
-        Throwable result = catchThrowable(() -> new MovingKey(input));
+        Throwable result = catchThrowable(() -> MovingCommand.findByInput(input));
         assertThat(result).isInstanceOf(MovingKeyInvalidException.class);
     }
 
@@ -34,7 +34,7 @@ class MovingKeyValidatorTest {
     @DisplayName("이동할 위치가 U 또는 D 라면 정상")
     @MethodSource
     void movingKeyValid(String input) {
-        Throwable result = catchThrowable(() -> new MovingKey(input));
+        Throwable result = catchThrowable(() -> MovingCommand.findByInput(input));
         assertThat(result).doesNotThrowAnyException();
     }
 
