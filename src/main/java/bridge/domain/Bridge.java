@@ -1,5 +1,6 @@
 package bridge.domain;
 
+import bridge.constant.MovingCommand;
 import java.util.List;
 
 public class Bridge {

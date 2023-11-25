@@ -1,6 +1,6 @@
 package bridge.constant;
 
-public class BridgeConstant {
+public final class BridgeConstant {
     public static final int BRIDGE_MAX_SIZE = 20;
     public static final int BRIDGE_MIN_SIZE = 3;
 
@@ -10,4 +10,6 @@ public class BridgeConstant {
     public static final String BRIDGE_UP_SIGN = "U";
 
     public static final String BRIDGE_DOWN_SIGN = "D";
+    public static final int BRIDGE_FLOOR_SIZE = 2;
+
 }

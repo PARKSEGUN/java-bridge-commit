@@ -1,15 +1,18 @@
 package bridge.controller;
 
 import static bridge.constant.ErrorMessage.BRIDGE_SIZE_ERROR_MESSAGE;
-import static bridge.constant.ErrorMessage.MOVING_KEY_INVALID_ERROR_MESSAGE;
+import static bridge.constant.ErrorMessage.MOVING_COMMAND_INVALID_ERROR_MESSAGE;
 import static bridge.constant.OutputMessage.BRIDGE_GAME_START_MESSAGE;
-import static bridge.constant.OutputMessage.REQUEST_MOVING_KEY_MESSAGE;
+import static bridge.constant.OutputMessage.REQUEST_MOVING_COMMAND_MESSAGE;
 
+import bridge.constant.MovingCommand;
 import bridge.domain.Bridge;
 import bridge.domain.BridgeGame;
-import bridge.domain.MovingKey;
+import bridge.domain.GameResult;
 import bridge.view.InputView;
 import bridge.view.OutputView;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BridgeController {
 
@@ -26,21 +29,27 @@ public class BridgeController {
     public void run() {
         outputView.printGameMessage(BRIDGE_GAME_START_MESSAGE);
         Bridge bridge = createBridge();
-        play();
+        System.out.println(bridge);
+        play(bridge);
     }
 
-    private void play() {
-        MovingKey movingKey = createMovingKey();
-
-    }
-
-    private MovingKey createMovingKey() {
+    private void play(Bridge bridge) {
+        List<GameResult> gameResults = new ArrayList<>();
         while (true) {
-            outputView.printGameMessage(REQUEST_MOVING_KEY_MESSAGE);
+            MovingCommand movingCommand = createMovingCommand();
+            gameResults.add(bridgeGame.move(bridge, movingCommand));
+            outputView.printMap(gameResults);
+        }
+
+    }
+
+    private MovingCommand createMovingCommand() {
+        while (true) {
+            outputView.printGameMessage(REQUEST_MOVING_COMMAND_MESSAGE);
             try {
-                return new MovingKey(inputView.readMoving());
+                return MovingCommand.findByInput(inputView.readMoving());
             } catch (IllegalArgumentException e) {
-                outputView.printErrorMessage(MOVING_KEY_INVALID_ERROR_MESSAGE);
+                outputView.printErrorMessage(MOVING_COMMAND_INVALID_ERROR_MESSAGE);
             }
         }
     }
