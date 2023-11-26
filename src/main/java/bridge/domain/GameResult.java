@@ -12,11 +12,15 @@ public class GameResult {
         this.isSuccess = isSuccess;
     }
 
-    public MovingCommand getMovingCommand() {
-        return movingCommand;
+    public boolean isSuccess() {
+        return isSuccess;
     }
 
-    public Boolean getSuccess() {
-        return isSuccess;
+    public boolean isFailed() {
+        return !isSuccess;
+    }
+
+    public MovingCommand getMovingCommand() {
+        return movingCommand;
     }
 }

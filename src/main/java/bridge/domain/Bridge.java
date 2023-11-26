@@ -19,4 +19,12 @@ public class Bridge {
                 "bridgeInfo=" + bridgeInfo +
                 '}';
     }
+
+    public Boolean canCross(int currentRound, MovingCommand movingCommand) {
+        return bridgeInfo.get(currentRound - 1).equals(movingCommand.getCommand());
+    }
+
+    public int size() {
+        return bridgeInfo.size();
+    }
 }
