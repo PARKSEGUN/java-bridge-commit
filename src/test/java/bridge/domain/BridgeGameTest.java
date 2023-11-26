@@ -15,8 +15,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class BridgeGameTest {
 
-    private BridgeGame bridgeGame = new BridgeGame();
     private final Bridge bridge = new Bridge(List.of("U", "U", "D", "D", "U"));
+    private final int INIT_COUNT = 1;
+    private BridgeGame bridgeGame = new BridgeGame();
+
 
     @BeforeEach
     void setUp() {
@@ -28,12 +30,13 @@ class BridgeGameTest {
     @MethodSource
     void bridgeMoveValidTest(int currentRound, MovingCommand movingCommand, boolean expectSuccess) {
         //given
-        for (int i = 1; i < currentRound; i++) {
-            bridgeGame.moveToNextRound();
-        }
+        GameResult gameResult = null;
         //when
-        GameResult gameResult = bridgeGame.move(bridge, movingCommand);
+        for (int i = 0; i < currentRound; i++) {
+            gameResult = bridgeGame.move(bridge, movingCommand);
+        }
         //then
+        assert gameResult != null;
         assertThat(gameResult.isSuccess()).isEqualTo(expectSuccess);
     }
 
@@ -42,6 +45,27 @@ class BridgeGameTest {
                 Arguments.of(1, UP, true),
                 Arguments.of(2, UP, true),
                 Arguments.of(3, DOWN, true)
+        );
+    }
+
+    @ParameterizedTest(name = "{0}라운드에서 {1}을 입력시에 결과는 {2}")
+    @DisplayName("재시도를 실행하면 시도횟수는 증가한다.")
+    @MethodSource
+    void retryRetryGameResult(int attemptCount) {
+        //given
+        //when
+        for (int i = 0; i < attemptCount; i++) {
+            bridgeGame.retry();
+        }
+        //then
+        assertThat(bridgeGame.getAttemptCount()).isEqualTo(attemptCount + 1);
+    }
+
+    private static Stream<Arguments> retryRetryGameResult() {
+        return Stream.of(
+                Arguments.of(1),
+                Arguments.of(2),
+                Arguments.of(3)
         );
     }
 }
