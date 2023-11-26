@@ -6,8 +6,8 @@ import static bridge.constant.BridgeConstant.BRIDGE_UP_SIGN;
 import bridge.exception.MovingKeyInvalidException;
 
 public class MovingCommandValidator {
-    public static void validateInvalid(String key) {
-        if (key.equals(BRIDGE_UP_SIGN) || key.equals(BRIDGE_DOWN_SIGN)) {
+    public static void validateMovingCommandInvalid(String input) {
+        if (input.equals(BRIDGE_UP_SIGN) || input.equals(BRIDGE_DOWN_SIGN)) {
             return;
         }
         throw MovingKeyInvalidException.exception;
