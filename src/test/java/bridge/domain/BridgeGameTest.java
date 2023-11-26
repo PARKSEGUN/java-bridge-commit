@@ -34,7 +34,7 @@ class BridgeGameTest {
         //when
         GameResult gameResult = bridgeGame.move(bridge, movingCommand);
         //then
-        assertThat(gameResult.getSuccess()).isEqualTo(expectSuccess);
+        assertThat(gameResult.isSuccess()).isEqualTo(expectSuccess);
     }
 
     private static Stream<Arguments> bridgeMoveValidTest() {
