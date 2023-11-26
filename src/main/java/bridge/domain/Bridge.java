@@ -12,14 +12,6 @@ public class Bridge {
         this.bridgeInfo = bridgeInfo;
     }
 
-    //검증용(지우기)
-    @Override
-    public String toString() {
-        return "Bridge{" +
-                "bridgeInfo=" + bridgeInfo +
-                '}';
-    }
-
     public Boolean canCross(int currentRound, MovingCommand movingCommand) {
         return bridgeInfo.get(currentRound - 1).equals(movingCommand.getCommand());
     }
