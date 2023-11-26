@@ -36,14 +36,17 @@ public class BridgeController {
     public void run() {
         outputView.printGameMessage(BRIDGE_GAME_START_MESSAGE);
         Bridge bridge = createBridge();
-        System.out.println(bridge); //삭제
-        //과연 좋은 방법인가
         GameResults gameResults = play(bridge);
+        GameResults finalGameResults = retryOrQuit(bridge, gameResults);
+        outputView.printResult(finalGameResults, bridgeGame.getAttemptCount());
+    }
+
+    private GameResults retryOrQuit(Bridge bridge, GameResults gameResults) {
         while (gameResults.isFailedGame() && createRetryCommand().isRetry()) {
             bridgeGame.retry();
             gameResults = play(bridge);
         }
-        outputView.printResult(gameResults, bridgeGame.getAttemptCount());
+        return gameResults;
     }
 
     private GameResults play(Bridge bridge) {
