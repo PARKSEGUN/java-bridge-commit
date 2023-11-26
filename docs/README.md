@@ -44,8 +44,8 @@
 
 ## 입력한 위치로 이동
 
-- [ ] 입력한 위치가 건널 수 있는 칸인지 확인
-- [ ] 확인한 결과를 출력
+- [x] 입력한 위치가 건널 수 있는 칸인지 확인
+- [x] 확인한 결과를 출력
     - 예시
   ``` 
   [ O | X ]
@@ -54,15 +54,15 @@
 
 ## 이동 결과에 따른 재시도 및 게임 진행
 
-- [ ] 건널 수 없는 칸이라면 재시도할 메시지 출력
+- [x] 건널 수 없는 칸이라면 재시도할 메시지 출력
     - 메시지 : 게임을 다시 시도할지 여부를 입력해주세요. (재시도: R, 종료: Q)
-- [ ] 건널 수 있는 칸이라면 이어서 다음 단계 진행
+- [x] 건널 수 있는 칸이라면 이어서 다음 단계 진행
 
 ## 재시도 여부(R,Q) 입력
 
 ### 예외처리
 
-- [ ] 입력값이 R 또는 Q 가 아니라면 예외처리
+- [x] 입력값이 R 또는 Q 가 아니라면 예외처리
 
 ### 기능
 
@@ -90,4 +90,21 @@
 # 🛠리팩토링을 시도할 부분
 
 - 재입력 받는 부분의 중복을 없애보기
+- 클래스에 저장 외에 다른 기능이 없다면 Enum을 생각해 보자
 
+---
+
+# 궁금한 점
+
+```
+    public GameResult(Map<MovingCommand, Boolean> result) {
+        this.result = new HashMap<>(result);
+    }
+
+    public static GameResult fromGameResult(GameResult gameResult,Map<MovingCommand,Boolean> result) {
+        gameResult.result.putAll(result);
+        return new GameResult(gameResult.result);
+    }
+```
+
+- 불변성을 어겼는가
