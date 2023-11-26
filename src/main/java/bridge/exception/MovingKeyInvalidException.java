@@ -1,12 +1,12 @@
 package bridge.exception;
 
-import static bridge.constant.ErrorMessage.MOVING_COMMAND_INVALID_ERROR_MESSAGE;
+import static bridge.constant.ErrorMessage.GAME_COMMAND_INVALID_ERROR_MESSAGE;
 
 public class MovingKeyInvalidException extends IllegalArgumentException {
     public static final MovingKeyInvalidException exception = new MovingKeyInvalidException();
 
     public MovingKeyInvalidException() {
-        super(MOVING_COMMAND_INVALID_ERROR_MESSAGE);
+        super(GAME_COMMAND_INVALID_ERROR_MESSAGE);
     }
 
     @Override

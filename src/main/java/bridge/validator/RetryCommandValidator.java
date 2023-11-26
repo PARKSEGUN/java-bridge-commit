@@ -1,7 +1,7 @@
 package bridge.validator;
 
-import static bridge.constant.RetryCommand.QUIT;
-import static bridge.constant.RetryCommand.RETRY;
+import static bridge.constant.GameCommand.QUIT;
+import static bridge.constant.GameCommand.RETRY;
 
 import bridge.exception.RetryCommandInvalidException;
 
