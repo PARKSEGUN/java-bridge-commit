@@ -48,24 +48,24 @@ class BridgeGameTest {
         );
     }
 
-    @ParameterizedTest(name = "{0}라운드에서 {1}을 입력시에 결과는 {2}")
+    @ParameterizedTest(name = "{0}재시도 하면 시도 횟수는 {1} 이다")
     @DisplayName("재시도를 실행하면 시도횟수는 증가한다.")
     @MethodSource
-    void retryRetryGameResult(int attemptCount) {
+    void retryRetryGameResult(int attemptCount, int expectAttemptCount) {
         //given
         //when
         for (int i = 0; i < attemptCount; i++) {
             bridgeGame.retry();
         }
         //then
-        assertThat(bridgeGame.getAttemptCount()).isEqualTo(attemptCount + 1);
+        assertThat(bridgeGame.getAttemptCount()).isEqualTo(expectAttemptCount);
     }
 
     private static Stream<Arguments> retryRetryGameResult() {
         return Stream.of(
-                Arguments.of(1),
-                Arguments.of(2),
-                Arguments.of(3)
+                Arguments.of(1, 2),
+                Arguments.of(2, 3),
+                Arguments.of(3, 4)
         );
     }
 }
