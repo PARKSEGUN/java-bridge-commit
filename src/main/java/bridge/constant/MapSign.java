@@ -16,7 +16,7 @@ public enum MapSign {
     //if문 클린한지 다시 보기
     public static MapSign of(GameResult gameResult, MovingCommand movingCommand) {
         if (gameResult.getMovingCommand().equals(movingCommand)) {
-            if (gameResult.getSuccess().equals(true)) {
+            if (gameResult.isSuccess()) {
                 return CORRECT;
             }
             return INCORRECT;
