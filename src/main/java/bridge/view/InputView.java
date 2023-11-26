@@ -12,7 +12,6 @@ public class InputView {
      * 다리의 길이를 입력받는다.
      */
     public int readBridgeSize() {
-
         String input = scanner.nextLine();
         return Integer.parseInt(input);
     }
@@ -30,7 +29,6 @@ public class InputView {
      */
     public String readGameCommand() {
         String input = scanner.nextLine();
-        scanner.close();
         return input;
     }
 }
