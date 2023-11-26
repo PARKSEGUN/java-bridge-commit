@@ -29,18 +29,25 @@ public class BridgeController {
     public void run() {
         outputView.printGameMessage(BRIDGE_GAME_START_MESSAGE);
         Bridge bridge = createBridge();
-        System.out.println(bridge);
-        play(bridge);
+        System.out.println(bridge); //삭제
+        //과연 좋은 방법인가
+        GameResults gameResults = play(bridge);
+        while (gameResults.isFailedGame() && createRetryCommand().isRetry()) {
+            bridgeGame.retry();
+            gameResults = play(bridge);
+        }
+        outputView.printResult(gameResults, bridgeGame.getAttemptCount());
     }
 
-    private void play(Bridge bridge) {
+    private GameResults play(Bridge bridge) {
         List<GameResult> gameResults = new ArrayList<>();
-        while (true) {
-            MovingCommand movingCommand = createMovingCommand();
-            gameResults.add(bridgeGame.move(bridge, movingCommand));
+        while (bridgeGame.isMoving(bridge, gameResults)) {
+            GameResult gameResult = bridgeGame.move(bridge, createMovingCommand());
+            gameResults.add(gameResult);
             outputView.printMap(gameResults);
+            bridgeGame.moveToNextRound();
         }
-
+        return new GameResults(gameResults);
     }
 
     private MovingCommand createMovingCommand() {
@@ -63,4 +70,17 @@ public class BridgeController {
             }
         }
     }
+
+    private RetryCommand createRetryCommand() {
+        while (true) {
+            outputView.printGameMessage(REQUEST_RETRY_COMMAND_MESSAGE);
+            try {
+                return RetryCommand.fromInput(inputView.readGameCommand());
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(RETRY_COMMAND_INVALID_ERROR_MESSAGE);
+            }
+        }
+    }
+
+
 }
