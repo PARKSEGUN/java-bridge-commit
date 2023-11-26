@@ -1,20 +1,18 @@
 package bridge.controller;
 
-import static bridge.constant.ErrorMessage.BRIDGE_SIZE_ERROR_MESSAGE;
-import static bridge.constant.ErrorMessage.MOVING_COMMAND_INVALID_ERROR_MESSAGE;
-import static bridge.constant.ErrorMessage.RETRY_COMMAND_INVALID_ERROR_MESSAGE;
+import static bridge.constant.ErrorMessage.GAME_COMMAND_INVALID_ERROR_MESSAGE;
 import static bridge.constant.OutputMessage.BRIDGE_GAME_START_MESSAGE;
-import static bridge.constant.OutputMessage.REQUEST_MOVING_COMMAND_MESSAGE;
-import static bridge.constant.OutputMessage.REQUEST_RETRY_COMMAND_MESSAGE;
 
 import bridge.BridgeRandomNumberGenerator;
+import bridge.constant.ErrorMessage;
+import bridge.constant.GameCommand;
 import bridge.constant.MovingCommand;
-import bridge.constant.RetryCommand;
 import bridge.domain.Bridge;
 import bridge.domain.BridgeGame;
 import bridge.domain.BridgeMaker;
 import bridge.domain.GameResult;
 import bridge.domain.GameResults;
+import bridge.exceptionHandler.InvalidInputHandler;
 import bridge.view.InputView;
 import bridge.view.OutputView;
 import java.util.ArrayList;
@@ -32,7 +30,6 @@ public class BridgeController {
         this.inputView = inputView;
     }
 
-    //컨트롤러가 너무 복잡하다는 생각
     public void run() {
         outputView.printGameMessage(BRIDGE_GAME_START_MESSAGE);
         Bridge bridge = createBridge();
@@ -59,38 +56,29 @@ public class BridgeController {
         return new GameResults(gameResults);
     }
 
+
     private MovingCommand createMovingCommand() {
-        while (true) {
-            outputView.printGameMessage(REQUEST_MOVING_COMMAND_MESSAGE);
-            try {
-                return MovingCommand.fromInput(inputView.readMoving());
-            } catch (IllegalArgumentException e) {
-                outputView.printErrorMessage(MOVING_COMMAND_INVALID_ERROR_MESSAGE);
-            }
-        }
+        return InvalidInputHandler.createObjectWithInput(
+                MovingCommand::fromInput,
+                inputView::readMoving,
+                GAME_COMMAND_INVALID_ERROR_MESSAGE
+        );
     }
 
     private Bridge createBridge() {
         BridgeMaker bridgeMaker = new BridgeMaker(new BridgeRandomNumberGenerator());
-        while (true) {
-            try {
-                return new Bridge(bridgeMaker.makeBridge(inputView.readBridgeSize()));
-            } catch (IllegalArgumentException e) {
-                outputView.printErrorMessage(BRIDGE_SIZE_ERROR_MESSAGE);
-            }
-        }
+        return InvalidInputHandler.createObjectWithInput(
+                size -> new Bridge(bridgeMaker.makeBridge(Integer.parseInt(size))),
+                inputView::readBridgeSize,
+                ErrorMessage.BRIDGE_SIZE_ERROR_MESSAGE
+        );
     }
 
-    private RetryCommand createRetryCommand() {
-        while (true) {
-            outputView.printGameMessage(REQUEST_RETRY_COMMAND_MESSAGE);
-            try {
-                return RetryCommand.fromInput(inputView.readGameCommand());
-            } catch (IllegalArgumentException e) {
-                outputView.printErrorMessage(RETRY_COMMAND_INVALID_ERROR_MESSAGE);
-            }
-        }
+    private GameCommand createRetryCommand() {
+        return InvalidInputHandler.createObjectWithInput(
+                GameCommand::fromInput,
+                inputView::readGameCommand,
+                GAME_COMMAND_INVALID_ERROR_MESSAGE
+        );
     }
-
-
 }
