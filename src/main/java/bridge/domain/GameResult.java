@@ -23,4 +23,9 @@ public class GameResult {
     public MovingCommand getMovingCommand() {
         return movingCommand;
     }
+
+    @Override
+    public String toString() {
+        return "[" + movingCommand + ", " + isSuccess + "]";
+    }
 }

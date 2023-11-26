@@ -1,10 +1,16 @@
 package bridge.view;
 
 import static bridge.constant.BridgeConstant.BRIDGE_FLOOR_SIZE;
+import static bridge.constant.OutputMessage.ATTEMPT_COUNT_FORMAT;
+import static bridge.constant.OutputMessage.FAIL;
+import static bridge.constant.OutputMessage.FINAL_GAME_RESULT_MESSAGE;
+import static bridge.constant.OutputMessage.GAME_RESULT_FORMAT;
+import static bridge.constant.OutputMessage.SUCCESS;
 
 import bridge.constant.MapSign;
 import bridge.constant.MovingCommand;
 import bridge.domain.GameResult;
+import bridge.domain.GameResults;
 import java.util.List;
 
 /**
@@ -33,7 +39,7 @@ public class OutputView {
      */
     public void printMap(List<GameResult> gameResults) {
         for (int floor = BRIDGE_FLOOR_SIZE; floor > 0; floor--) {
-            printMapByFloor(MovingCommand.findByFloor(floor), gameResults);
+            printMapByFloor(MovingCommand.fromFloor(floor), gameResults);
             System.out.println();
         }
 
@@ -56,6 +62,14 @@ public class OutputView {
      * <p>
      * 출력을 위해 필요한 메서드의 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
      */
-    public void printResult() {
+    public void printResult(GameResults gameResults, int attemptCount) {
+        String finalResultMessage = SUCCESS;
+        if (gameResults.isFailedGame()) {
+            finalResultMessage = FAIL;
+        }
+        printGameMessage(FINAL_GAME_RESULT_MESSAGE);
+        printMap(gameResults.getGameResults());
+        System.out.println(String.format(GAME_RESULT_FORMAT, finalResultMessage));
+        System.out.println(String.format(ATTEMPT_COUNT_FORMAT, attemptCount));
     }
 }

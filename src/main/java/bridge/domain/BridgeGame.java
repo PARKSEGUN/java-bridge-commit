@@ -19,10 +19,6 @@ public class BridgeGame {
         this.attemptCount = START_COUNT;
     }
 
-    public void moveToNextRound() {
-        currentRound++;
-    }
-
     public boolean isGameOver(Bridge bridge) {
         return bridge.size() < currentRound;
     }
@@ -44,7 +40,7 @@ public class BridgeGame {
      * 이동을 위해 필요한 메서드의 반환 타입(return type), 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
      */
     public GameResult move(Bridge bridge, MovingCommand movingCommand) {
-        return new GameResult(movingCommand, bridge.canCross(currentRound, movingCommand));
+        return new GameResult(movingCommand, bridge.canCross(currentRound++, movingCommand));
     }
 
     /**
@@ -53,5 +49,11 @@ public class BridgeGame {
      * 재시작을 위해 필요한 메서드의 반환 타입(return type), 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
      */
     public void retry() {
+        currentRound = START_ROUND;
+        attemptCount++;
+    }
+
+    public int getAttemptCount() {
+        return attemptCount;
     }
 }
